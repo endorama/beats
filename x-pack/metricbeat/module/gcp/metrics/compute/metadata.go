@@ -111,6 +111,7 @@ func (s *metadataCollector) instanceMetadata(ctx context.Context, instanceID, zo
 	if err != nil {
 		return nil, errors.Wrapf(err, "error trying to get data from instance '%s' in zone '%s'", instanceID, zone)
 	}
+	s.logger.Warnf("instance: %+v", i)
 
 	s.computeMetadata = &computeMetadata{
 		instanceID: instanceID,
@@ -118,6 +119,7 @@ func (s *metadataCollector) instanceMetadata(ctx context.Context, instanceID, zo
 	}
 
 	if i == nil {
+		s.logger.Warn("instance data is nil, returning")
 		return s.computeMetadata, nil
 	}
 
@@ -148,6 +150,7 @@ func (s *metadataCollector) instance(ctx context.Context, instanceID, zone strin
 	}
 
 	instanceCachedData := s.instanceCache.Get(instanceID)
+	s.logger.Warnf("retrieved cached data for instance <%s>: %+v", instanceID, instanceCachedData)
 	if instanceCachedData != nil {
 		if computeInstance, ok := instanceCachedData.(*compute.Instance); ok {
 			return computeInstance, nil
@@ -167,10 +170,12 @@ func (s *metadataCollector) instance(ctx context.Context, instanceID, zone strin
 }
 
 func (s *metadataCollector) instanceID(ts *monitoringpb.TimeSeries) string {
+	s.logger.Warnf("%+v", ts.Resource)
 	if ts.Resource != nil && ts.Resource.Labels != nil {
 		return ts.Resource.Labels[gcp.TimeSeriesResponsePathForECSInstanceID]
 	}
 
+	s.logger.Warnf("instance_id resource label not found")
 	return ""
 }
 
