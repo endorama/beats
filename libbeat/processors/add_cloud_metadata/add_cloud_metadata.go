@@ -84,6 +84,7 @@ func New(c *common.Config) (processors.Processor, error) {
 		},
 		logger: logp.NewLogger("add_cloud_metadata"),
 	}
+	p.logger.Warn("Initialized add_cloud_metadata")
 
 	go p.init()
 	return p, nil
