@@ -831,6 +831,7 @@ func IntegrationTestEnvVars() []string {
 		"AWS_SHARED_CREDENTIAL_FILE",
 		"AZURE_AUTH_LOCATION",
 		"GOOGLE_APPLICATION_CREDENTIALS",
+		"GCP_CREDENTIALS_FILE_PATH",
 	}
 	// Environment variables with authentication information.
 	prefixes := []string{
@@ -840,6 +841,7 @@ func IntegrationTestEnvVars() []string {
 		// Accepted by terraform, but not by many clients, including Beats
 		"GOOGLE_",
 		"GCLOUD_",
+		"GCP_",
 	}
 	for _, prefix := range prefixes {
 		vars = append(vars, ListMatchingEnvVars(prefix)...)
