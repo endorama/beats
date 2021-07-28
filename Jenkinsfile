@@ -821,6 +821,7 @@ def withCloudTestEnv(Closure body) {
   def maskedVars = []
   def testTags = "${env.TEST_TAGS}"
 
+  // TODO: add GCP
   // AWS
   if (params.allCloudTests || params.awsCloudTests) {
     testTags = "${testTags},aws"
