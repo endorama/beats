@@ -32,6 +32,7 @@ stages:
         mage: "mage pythonIntegTest"
         withModule: true
         stage: mandatory
+    # TODO: add gcp module
     cloud:
         cloud: "mage build test"
         withModule: true       ## run the ITs only if the changeset affects a specific module.
