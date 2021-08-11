@@ -61,12 +61,12 @@ type metadataCollector struct {
 
 // Metadata implements googlecloud.MetadataCollector to the known set of labels from a Compute TimeSeries single point of data.
 func (s *metadataCollector) Metadata(ctx context.Context, resp *monitoringpb.TimeSeries) (gcp.MetadataCollectorData, error) {
-	if s.computeMetadata == nil {
-		_, err := s.instanceMetadata(ctx, s.instanceID(resp), s.instanceZone(resp))
-		if err != nil {
-			return gcp.MetadataCollectorData{}, err
-		}
+	// if s.computeMetadata == nil {
+	_, err := s.instanceMetadata(ctx, s.instanceID(resp), s.instanceZone(resp))
+	if err != nil {
+		return gcp.MetadataCollectorData{}, err
 	}
+	// }
 
 	stackdriverLabels := gcp.NewStackdriverMetadataServiceForTimeSeries(resp)
 	metadataCollectorData, err := stackdriverLabels.Metadata(ctx, resp)
